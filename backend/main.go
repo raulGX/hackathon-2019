@@ -54,6 +54,7 @@ func main() {
 	userRepo := users.NewInMemoryUserRepo()
 	userService := users.NewUserService(userRepo, formatter)
 
+	// events
 	mx.HandleFunc("/events", eventService.EventsHandleGet()).Methods("GET")
 	mx.HandleFunc("/events",
 		userService.MustLogin(eventService.EventsHandlePost()),
@@ -64,8 +65,11 @@ func main() {
 	mx.HandleFunc("/events/{id}/unregister",
 		userService.MustLogin(eventService.EventsHandleUnRegister()),
 	).Methods("POST")
+
+	// user
 	mx.HandleFunc("/register", userService.HandleUserRegister()).Methods("POST")
 	mx.HandleFunc("/login", userService.HandleUserLogin()).Methods("POST")
+	mx.HandleFunc("/userInfo", userService.MustLogin(userService.HandleUserInfo())).Methods("GET")
 
 	n.UseHandler(mx)
 	n.Run(":" + port)

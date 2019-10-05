@@ -13,10 +13,15 @@ import (
 )
 
 type Event struct {
-	ID              string   `json:"id"`
-	Name            string   `json:"name"`
-	Description     string   `json:"description"`
-	UsersRegistered []string `json:"usersRegistered"`
+	ID              string      `json:"id"`
+	Name            string      `json:"name"`
+	Description     string      `json:"description"`
+	UsersRegistered []string    `json:"usersRegistered"`
+	Location        interface{} `json:"location"`
+	Date            int64       `json:"date"`
+	RewardCredits   int64       `json:"rewardCredits"`
+	MinUserLimit    int         `json:"minUserLimit"`
+	MaxUserLimit    int         `json:"maxUserLimit"`
 }
 
 func (e Event) IsValid() bool {
