@@ -1,18 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
-import moment from 'moment';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 import { Swipeable } from 'react-swipeable';
 
 import { fetchEvents } from 'model/actions/events';
+import Event from 'components/Event';
 import Map from './Map';
 import Search from './Search';
-import { EventsWrapper, SwipeHandler, Indicator } from './styled';
+import { EventsWrapper, EventsList, SwipeHandler, Indicator } from './styled';
 
 const BOTTOM_POINT = 120;
 const TOP_POINT = 210;
@@ -81,25 +76,11 @@ function Events({ events }) {
             <Indicator />
           </SwipeHandler>
         </Swipeable>
-        {events.map(event => (
-          <Card key={event.name} className="event">
-            <CardContent>
-              <Typography variant="h5" component="h2">
-                {event.name}
-              </Typography>
-              <Typography color="textSecondary">{event.description}</Typography>
-              <Typography color="textSecondary">
-                {moment(event.date).format('DD MMM YYYY')}
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button size="small">Attend</Button>
-              <Typography color="textSecondary">
-                {event.location.distance}, {event.location.name}
-              </Typography>
-            </CardActions>
-          </Card>
-        ))}
+        <EventsList>
+          {events.map(event => (
+            <Event key={event.id} event={event} className="event" showJoinBtn />
+          ))}
+        </EventsList>
       </EventsWrapper>
     </>
   );

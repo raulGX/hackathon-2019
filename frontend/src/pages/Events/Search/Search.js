@@ -7,7 +7,6 @@ import SearchIcon from 'assets/icons/all-events.svg';
 
 import { Wrapper, Input } from './styled';
 
-console.log(parseNativeEventValue);
 export default function SearchBox({ placeholder, onInputChange, searchTerm, autoFocus }) {
   const onInput = event => {
     const value = parseNativeEventValue(event);

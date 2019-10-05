@@ -8,16 +8,18 @@ import { Column } from 'common/styles/shared';
 
 import { StyledEvent } from './styled';
 
-function Event({ event, showJoinBtn }) {
+function Event({ event, showJoinBtn, ...props }) {
   return (
-    <StyledEvent>
+    <StyledEvent {...props}>
       <Column>
-        <Typography variant="caption" color="primary">
+        <Typography variant="caption" color="primary" className="date">
           {moment(event.date).format('LLLL')}
         </Typography>
-        <Typography variant="h6">{event.name}</Typography>
-        <Typography color="textSecondary">
-          {event.location.name} . {event.location.distance} . {event.usersRegistered.length} going
+        <Typography variant="h6" className="name">
+          {event.name}
+        </Typography>
+        <Typography color="textSecondary" className="place">
+          {event.location.name} ∙ {event.location.distance} ∙ {event.usersRegistered.length} going
         </Typography>
       </Column>
       <Column>

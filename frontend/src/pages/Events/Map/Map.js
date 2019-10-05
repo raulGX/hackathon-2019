@@ -5,6 +5,8 @@ import PinIcon from 'assets/icons/pin.svg';
 import { StyledMap } from './styled';
 import events from './mocks';
 
+import 'mapbox-gl/dist/mapbox-gl.css';
+
 export default function Map() {
   const [viewport, setViewport] = useState({
     width: '100%',
