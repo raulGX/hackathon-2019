@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 
 import AppRoutes from 'containers/AppRoutes';
 import Menu from 'components/Menu';
@@ -9,8 +10,18 @@ import { StyledPage } from 'components/styled/Page';
 import SuspenseLoading from 'containers/SuspenseLoading';
 
 import { getPageNameFromPath } from 'common/utils';
+import { events } from 'config/mocks';
+import { postEvent } from 'model/actions/events';
 
 const Index = ({ routes, location }) => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    events.forEach(event => {
+      dispatch(postEvent(event));
+    });
+  }, []);
+
   const pageName = getPageNameFromPath(location.pathname, routes);
 
   return (
