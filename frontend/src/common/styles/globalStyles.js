@@ -15,7 +15,6 @@ const GlobalStyle = createGlobalStyle`
 
   #root {
     height: 100%;
-    background-color: ${({ theme }) => theme.palette.background.dark};
   }
 
   * {

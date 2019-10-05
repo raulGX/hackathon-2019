@@ -1,6 +1,6 @@
 import { lazy } from 'react';
 
-// import DashboardIcon from 'assets/icons/Dashboard.svg';
+import AccessAlarmIcon from '@material-ui/icons/AccessAlarm';
 
 const Index = lazy(() => import(/* webpackChunkName: "Index" */ 'pages/Index'));
 const Dashboard = lazy(() => import(/* webpackChunkName: "Dashboard" */ 'pages/Dashboard'));
@@ -12,14 +12,23 @@ const routes = [
     component: Index,
     routes: [
       {
-        key: 'Dashboard',
+        key: 'dashboard',
         default: true,
         exact: true,
         parent: '/',
         name: 'Dashboard',
-        path: '/Dashboard',
-        component: Dashboard
-        // icon: DashboardIcon
+        path: '/dashboard',
+        component: Dashboard,
+        icon: AccessAlarmIcon
+      },
+      {
+        key: 'events',
+        exact: true,
+        parent: '/',
+        name: 'Events',
+        path: '/events',
+        component: Dashboard,
+        icon: AccessAlarmIcon
       }
     ]
   }
