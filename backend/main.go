@@ -1,8 +1,7 @@
 package server
 
 import (
-	"server/events"
-
+	"github.com/bytexro/hackaton2019-wubbadubdub/backend/events"
 	"github.com/gorilla/mux"
 	"github.com/unrolled/render"
 )
