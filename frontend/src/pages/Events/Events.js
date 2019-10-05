@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
+import moment from 'moment';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -25,6 +26,9 @@ function Events({ events }) {
               {event.name}
             </Typography>
             <Typography color="textSecondary">{event.description}</Typography>
+            <Typography color="textSecondary">
+              {moment(event.date).format('DD MMM YYYY')}
+            </Typography>
           </CardContent>
           <CardActions>
             <Button size="small">Attend</Button>

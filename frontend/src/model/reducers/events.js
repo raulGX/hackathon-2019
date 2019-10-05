@@ -9,19 +9,22 @@ function FETCH_EVENTS_SUCCESS(nextState, { result }) {
             name: 'My 1st event',
             description:
               'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s',
-            location: { name: 'Str. Zimbrului 12 nr. 2', distance: '4km away' }
+            location: { name: 'Str. Zimbrului 12 nr. 2', distance: '4km away' },
+            date: 1570292501219
           },
           {
             name: 'My 2nd event',
             description:
               'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s',
-            location: { name: 'Str. Zimbrului 12 nr. 2', distance: '4km away' }
+            location: { name: 'Str. Zimbrului 12 nr. 2', distance: '4km away' },
+            date: 1570292501219
           },
           {
             name: 'My 3rd event',
             description:
               'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s',
-            location: { name: 'Str. Zimbrului 12 nr. 2', distance: '4km away' }
+            location: { name: 'Str. Zimbrului 12 nr. 2', distance: '4km away' },
+            date: 1570292501219
           }
         ];
   nextState.isLoading = false;
