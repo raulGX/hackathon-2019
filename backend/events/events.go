@@ -3,12 +3,14 @@ package events
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 	"sync"
 
 	"github.com/unrolled/render"
 )
 
 type Event struct {
+	ID          string `json:id`
 	Name        string `json:name`
 	Description string `json:description`
 }
@@ -27,7 +29,7 @@ func (e Event) IsValid() bool {
 
 type IEventRepo interface {
 	GetEvents() ([]Event, error)
-	AddEvent(Event) error
+	AddEvent(Event) (Event, error)
 }
 
 type InMemoryEventsRepo struct {
@@ -41,13 +43,14 @@ func (r *InMemoryEventsRepo) GetEvents() ([]Event, error) {
 	return r.events, nil
 }
 
-func (r *InMemoryEventsRepo) AddEvent(e Event) error {
+func (r *InMemoryEventsRepo) AddEvent(e Event) (Event, error) {
 	r.Lock()
 	defer r.Unlock()
 
+	e.ID = strconv.Itoa(len(r.events) + 1)
 	r.events = append(r.events, e)
 
-	return nil
+	return e, nil
 }
 
 type EventsService struct {
@@ -79,7 +82,7 @@ func (s *EventsService) EventsHandlePost() http.HandlerFunc {
 			s.formatter.JSON(w, http.StatusBadRequest, "Event is not valid")
 			return
 		}
-		err = s.repo.AddEvent(ev)
+		ev, err = s.repo.AddEvent(ev)
 		if err != nil {
 			s.formatter.JSON(w, http.StatusInternalServerError, "Failed to save event")
 			return

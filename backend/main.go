@@ -16,10 +16,26 @@ func main() {
 	if len(port) == 0 {
 		port = "3000"
 	}
+
 	n := negroni.Classic()
 
 	n.UseFunc(func(w http.ResponseWriter, req *http.Request, next http.HandlerFunc) {
+		defer func() {
+			if err := recover(); err != nil {
+				w.WriteHeader(http.StatusInternalServerError)
+				w.Write([]byte("Internal Server Error"))
+			}
+		}()
+		next(w, req)
+	})
+
+	n.UseFunc(func(w http.ResponseWriter, req *http.Request, next http.HandlerFunc) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+		w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+		if (*req).Method == "OPTIONS" {
+			return
+		}
 		next(w, req)
 	})
 
