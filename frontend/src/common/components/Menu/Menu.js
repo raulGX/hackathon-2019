@@ -17,9 +17,9 @@ function Menu({ routes, location }) {
           key={route.key}
           component={NavLink}
           to={route.path}
-          label={route.name}
           value={route.key}
           icon={<route.icon />}
+          showLabel={false}
         />
       ))}
     </Navigation>
