@@ -7,6 +7,7 @@ import (
 	"github.com/codegangsta/negroni"
 
 	"github.com/bytexro/hackaton2019-wubbadubdub/backend/events"
+	"github.com/bytexro/hackaton2019-wubbadubdub/backend/users"
 	"github.com/gorilla/mux"
 	"github.com/unrolled/render"
 )
@@ -14,7 +15,7 @@ import (
 func main() {
 	port := os.Getenv("PORT")
 	if len(port) == 0 {
-		port = "3000"
+		port = "2000"
 	}
 
 	n := negroni.Classic()
@@ -26,6 +27,11 @@ func main() {
 				w.Write([]byte("Internal Server Error"))
 			}
 		}()
+		next(w, req)
+	})
+
+	n.UseFunc(func(w http.ResponseWriter, req *http.Request, next http.HandlerFunc) {
+		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 		next(w, req)
 	})
 
@@ -45,9 +51,15 @@ func main() {
 	})
 
 	eventService := events.NewInMemoryService(formatter)
+	userRepo := users.NewInMemoryUserRepo()
+	userService := users.NewUserService(userRepo, formatter)
 
 	mx.HandleFunc("/events", eventService.EventsHandleGet()).Methods("GET")
-	mx.HandleFunc("/events", eventService.EventsHandlePost()).Methods("POST")
+	mx.HandleFunc("/events",
+		userService.MustLogin(eventService.EventsHandlePost()),
+	).Methods("POST")
+	mx.HandleFunc("/register", userService.HandleUserRegister()).Methods("POST")
+	mx.HandleFunc("/login", userService.HandleUserLogin()).Methods("POST")
 
 	n.UseHandler(mx)
 	n.Run(":" + port)

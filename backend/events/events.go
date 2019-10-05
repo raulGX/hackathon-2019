@@ -2,17 +2,19 @@ package events
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strconv"
 	"sync"
 
+	"github.com/bytexro/hackaton2019-wubbadubdub/backend/users"
 	"github.com/unrolled/render"
 )
 
 type Event struct {
-	ID          string `json:id`
-	Name        string `json:name`
-	Description string `json:description`
+	ID          string `json:"id"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
 }
 
 func (e Event) IsValid() bool {
@@ -74,6 +76,8 @@ func (s *EventsService) EventsHandlePost() http.HandlerFunc {
 		decoder := json.NewDecoder(req.Body)
 		var ev Event
 		err := decoder.Decode(&ev)
+		user := req.Context().Value("user").(users.User)
+		fmt.Printf("User: %v", user)
 		if err != nil {
 			s.formatter.JSON(w, http.StatusBadRequest, "Failed to parse event")
 			return
@@ -92,7 +96,7 @@ func (s *EventsService) EventsHandlePost() http.HandlerFunc {
 }
 
 func NewInMemoryService(formatter *render.Render) *EventsService {
-	events := make([]Event, 0)
+	events := []Event{}
 	return &EventsService{
 		formatter: formatter,
 		repo:      &InMemoryEventsRepo{events: events},
