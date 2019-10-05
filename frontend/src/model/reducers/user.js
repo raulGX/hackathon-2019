@@ -17,8 +17,15 @@ function LOGIN(nextState) {
   nextState.loggedIn = true;
 }
 
+function USER_MODIFIED(nextState, { payload }) {
+  if (nextState.name === payload.name) {
+    nextState.coins = payload.coins;
+  }
+}
+
 const reducer = createReducer(
   {
+    name: 'bytex', // should come from login screen also pass this to websocket
     profile: {},
     coins: 0,
     loggedIn: false,
@@ -28,7 +35,8 @@ const reducer = createReducer(
     FETCH_USER_SUCCESS,
     FETCH_USER_FAILURE,
     FETCH_USER_REQUEST,
-    LOGIN
+    LOGIN,
+    '@@backend/USER_MODIFIED': USER_MODIFIED
   }
 );
 

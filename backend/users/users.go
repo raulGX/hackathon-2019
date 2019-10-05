@@ -18,7 +18,7 @@ type User struct {
 	Name     string  `json:"name"`
 	Password *string `json:"password,omitempty"`
 	IsAdmin  bool    `json:"isAdmin"` // should be removed
-	Credits  float64 `json:"credits"`
+	Credits  float64 `json:"coins"`
 }
 
 type IUserRepo interface {
