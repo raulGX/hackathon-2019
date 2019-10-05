@@ -10,24 +10,59 @@ import (
 	"github.com/unrolled/render"
 )
 
-var defaultCredits int64 = 10
+var defaultCredits float64 = 10
+var InsufficientFundsError = fmt.Errorf("User has not enough credits")
+var UserNotFoundError = fmt.Errorf("User not found")
 
 type User struct {
 	Name     string  `json:"name"`
 	Password *string `json:"password,omitempty"`
-	IsAdmin  bool    `json:"IsAdmin"` // should be removed
-	Credits  int64   `json:"credits"`
+	IsAdmin  bool    `json:"isAdmin"` // should be removed
+	Credits  float64 `json:"credits"`
 }
 
 type IUserRepo interface {
 	GetUser(id string) (User, error)
 	AddUser(u User) error
 	VerifyUser(username, password string) bool
+	AddCreditsToUser(user string, price float64) (User, error)
+	RemoveCreditsFromUser(user string, price float64) (User, error)
 }
 
 type InMemoryUserRepo struct {
 	sync.Mutex
 	users map[string]User
+}
+
+func (r *InMemoryUserRepo) AddCreditsToUser(user string, price float64) (User, error) {
+	r.Lock()
+	defer r.Unlock()
+	for i := range r.users {
+		if r.users[i].Name == user {
+			usr := r.users[i]
+			usr.Credits += price
+			r.users[i] = usr
+			return r.users[i], nil
+		}
+	}
+	return User{}, UserNotFoundError
+}
+
+func (r *InMemoryUserRepo) RemoveCreditsFromUser(user string, price float64) (User, error) {
+	r.Lock()
+	defer r.Unlock()
+	for i := range r.users {
+		if r.users[i].Name == user {
+			user := r.users[i]
+			if user.Credits <= price {
+				return user, InsufficientFundsError
+			}
+			user.Credits -= price
+			r.users[i] = user
+			return r.users[i], nil
+		}
+	}
+	return User{}, UserNotFoundError
 }
 
 func (r *InMemoryUserRepo) GetUser(id string) (User, error) {
