@@ -19,7 +19,7 @@ function BACKEND_EVENT_TRIGGERED(nextState, { payload }) {
 
 function MODIFY_EVENT(nextState, { payload }) {
   nextState.entities = nextState.entities.map(e => {
-    if (e.name === payload.name) {
+    if (e.id === payload.id) {
       return payload;
     }
     return e;
