@@ -1,0 +1,1 @@
+export { StyledPage } from './Page';
