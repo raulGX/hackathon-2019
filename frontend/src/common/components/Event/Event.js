@@ -17,7 +17,7 @@ function Event({ event, showJoinBtn }) {
         </Typography>
         <Typography variant="h6">{event.name}</Typography>
         <Typography color="textSecondary">
-          {event.location.name} . {event.location.distance} . {event.participantsCount} going
+          {event.location.name} . {event.location.distance} . {event.usersRegistered.length} going
         </Typography>
       </Column>
       <Column>
