@@ -25,11 +25,9 @@ let themeConfig = {
   },
   props: {
     MuiButtonBase: {
-      // The properties to apply
-      disableRipple: true // No more ripple, on the whole application 💣!
+      disableRipple: true
     }
-  },
-  overrides: {}
+  }
 };
 
 themeConfig.overrides = {
@@ -45,6 +43,14 @@ themeConfig.overrides = {
     },
     iconOnly: {
       padding: '41px 0'
+    }
+  },
+  MuiButton: {
+    root: {
+      borderRadius: '24px'
+    },
+    label: {
+      fontWeight: 'bold'
     }
   }
 };
