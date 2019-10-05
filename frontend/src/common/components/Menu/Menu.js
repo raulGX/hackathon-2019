@@ -6,9 +6,10 @@ import { BottomNavigationAction } from '@material-ui/core';
 import { Navigation } from './styled';
 
 function Menu({ routes, location }) {
-  const activeRoute = useMemo(() => routes.find(route => route.path === location.pathname), [
-    location
-  ]);
+  const activeRoute = useMemo(
+    () => routes.find(route => route.path === location.pathname) || { key: '/' },
+    [location]
+  );
 
   return (
     <Navigation value={activeRoute.key}>
