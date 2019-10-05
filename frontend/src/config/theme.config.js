@@ -2,13 +2,26 @@
 let themeConfig = {
   typography: {
     htmlFontSize: 10,
-    fontFamily: 'Roboto, Arial, sans-serif'
+    fontFamily: 'NunitoSans, Arial, sans-serif'
   },
   palette: {
     background: {
       paper: '#fff',
       default: '#f9f9f9'
-    }
+    },
+    primary: {
+      main: '#0a31f8'
+    },
+    text: {
+      main: '#353b54'
+    },
+
+    critical: '#ff0050',
+    warning: '#ff981e',
+    okay: '#64c83e'
+  },
+  shadow: {
+    main: '0 4px 16px 0 #ededed'
   },
   props: {
     MuiButtonBase: {
@@ -16,21 +29,22 @@ let themeConfig = {
       disableRipple: true // No more ripple, on the whole application 💣!
     }
   },
-  overrides: {
-    MuiBottomNavigation: {
-      root: {
-        borderRadius: '20px',
-        boxShadow:
-          '0px 1px 3px 0px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 2px 1px -1px rgba(0,0,0,0.12)'
-      }
+  overrides: {}
+};
+
+themeConfig.overrides = {
+  MuiBottomNavigation: {
+    root: {
+      boxShadow: themeConfig.shadow.main,
+      padding: '41px 0'
+    }
+  },
+  MuiBottomNavigationAction: {
+    root: {
+      padding: 0
     },
-    MuiBottomNavigationAction: {
-      root: {
-        padding: 0
-      },
-      iconOnly: {
-        paddingTop: '0px'
-      }
+    iconOnly: {
+      padding: '41px 0'
     }
   }
 };
