@@ -1,0 +1,1 @@
+export { StyledMainPage } from './MainPage';
