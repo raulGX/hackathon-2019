@@ -1,4 +1,4 @@
-import Cookie from 'js-cookie';
+// import Cookie from 'js-cookie';
 
 import store from 'model/store';
 import { logoutUser } from 'model/actions/user';
