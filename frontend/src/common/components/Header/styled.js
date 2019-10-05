@@ -4,7 +4,6 @@ import { headerHeight } from '../../styles/variables';
 
 const StyledHeader = styled.div`
   display: flex;
-  background-color: ${({ theme }) => theme.palette.background.dark};
   height: ${headerHeight - 0.1}rem;
   width: 100%;
   flex-flow: row nowrap;
