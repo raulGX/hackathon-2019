@@ -20,6 +20,7 @@ function LOGIN(nextState) {
 const reducer = createReducer(
   {
     profile: {},
+    coins: 0,
     loggedIn: false,
     isLoading: false
   },
