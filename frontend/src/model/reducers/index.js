@@ -4,11 +4,13 @@ import { combineReducers } from 'redux';
 import userReducer from './user';
 import notificationsReducer from './notifications';
 import eventsReducer from './events';
+import marketReducer from './market';
 
 const reducers = combineReducers({
   user: userReducer,
   notifications: notificationsReducer,
-  events: eventsReducer
+  events: eventsReducer,
+  market: marketReducer
 });
 
 const rootReducer = (state, action) => {

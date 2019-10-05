@@ -8,6 +8,7 @@ import MarketplaceIcon from 'assets/icons/marketplace.svg';
 const Index = lazy(() => import(/* webpackChunkName: "Index" */ 'pages/Index'));
 const Dashboard = lazy(() => import(/* webpackChunkName: "Dashboard" */ 'pages/Dashboard'));
 const Events = lazy(() => import(/* webpackChunkName: "Events" */ 'pages/Events'));
+const Marketplace = lazy(() => import(/* webpackChunkName: "Marketplace" */ 'pages/Marketplace'));
 
 const routes = [
   {
@@ -49,7 +50,7 @@ const routes = [
         parent: '/',
         name: 'Marketplace',
         path: '/marketplace',
-        component: Events,
+        component: Marketplace,
         icon: MarketplaceIcon
       }
     ]
