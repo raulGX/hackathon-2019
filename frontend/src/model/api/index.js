@@ -3,13 +3,15 @@
 import store from 'model/store';
 import { logoutUser } from 'model/actions/user';
 import { showError } from 'model/actions/notifications';
+import { USERNAME } from 'config/api.config';
+
 import query from './query';
 
 const parseOptions = options => ({
   ...options,
   headers: {
     'Content-Type': 'application/json',
-    // Authorization: `Bearer ${Cookie.get(COOKIE_NAME)}`,
+    'X-TOKEN': `${USERNAME}`,
     ...options.headers
   },
   method: options.method || 'GET',

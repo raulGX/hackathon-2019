@@ -5,9 +5,24 @@ function FETCH_EVENTS_SUCCESS(nextState, { result }) {
     result.length > 0
       ? result
       : [
-          { name: 'KHHASHIDA', description: 'dsdsa asd d das das das das' },
-          { name: 'dgffd', description: 'fsdfs asd d das das das das' },
-          { name: 'dsfsfds', description: 'dsdsa sfsdfsf d das das das das' }
+          {
+            name: 'My 1st event',
+            description:
+              'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s',
+            location: { name: 'Str. Zimbrului 12 nr. 2', distance: '4km away' }
+          },
+          {
+            name: 'My 2nd event',
+            description:
+              'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s',
+            location: { name: 'Str. Zimbrului 12 nr. 2', distance: '4km away' }
+          },
+          {
+            name: 'My 3rd event',
+            description:
+              'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s',
+            location: { name: 'Str. Zimbrului 12 nr. 2', distance: '4km away' }
+          }
         ];
   nextState.isLoading = false;
 }
