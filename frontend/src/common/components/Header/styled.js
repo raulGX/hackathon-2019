@@ -1,10 +1,7 @@
 import styled from 'styled-components';
 
-import { headerHeight } from '../../styles/variables';
-
 const StyledHeader = styled.div`
   display: flex;
-  height: ${headerHeight - 0.1}rem;
   width: 100%;
   flex-flow: row nowrap;
   align-items: center;

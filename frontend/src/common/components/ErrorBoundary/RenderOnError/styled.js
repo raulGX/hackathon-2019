@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { headerHeight } from 'common/styles/variables';
 
 export const ErrorWrapper = styled.div`
   height: 100%;
@@ -7,10 +6,6 @@ export const ErrorWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
-  &.page {
-    height: calc(100vh - ${headerHeight}rem);
-  }
 
   &.horizontal {
     flex-direction: row;
