@@ -10,10 +10,13 @@ import (
 	"github.com/unrolled/render"
 )
 
+var defaultCredits int64 = 10
+
 type User struct {
 	Name     string  `json:"name"`
 	Password *string `json:"password,omitempty"`
 	IsAdmin  bool    `json:"IsAdmin"` // should be removed
+	Credits  int64   `json:"credits"`
 }
 
 type IUserRepo interface {
@@ -62,13 +65,13 @@ func NewInMemoryUserRepo() *InMemoryUserRepo {
 	defaultPass := "password"
 
 	var users map[string]User = map[string]User{
-		"bytex":       {"bytex", &defaultPass, true},
-		"mihaibogdan": {"mihaibogdan", &defaultPass, true},
-		"bailinca":    {"bailinca", &defaultPass, true},
-		"cristian":    {"cristian", &defaultPass, true},
-		"raul":        {"raul", &defaultPass, true},
-		"user1":       {"user1", &defaultPass, false},
-		"user2":       {"user2", &defaultPass, false},
+		"bytex":       {"bytex", &defaultPass, true, defaultCredits},
+		"mihaibogdan": {"mihaibogdan", &defaultPass, true, defaultCredits},
+		"bailinca":    {"bailinca", &defaultPass, true, defaultCredits},
+		"cristian":    {"cristian", &defaultPass, true, defaultCredits},
+		"raul":        {"raul", &defaultPass, true, defaultCredits},
+		"user1":       {"user1", &defaultPass, false, defaultCredits},
+		"user2":       {"user2", &defaultPass, false, defaultCredits},
 	}
 
 	return &InMemoryUserRepo{users: users}
@@ -118,9 +121,18 @@ func (s *UserService) HandleUserRegister() http.HandlerFunc {
 		}
 
 		user.IsAdmin = false
+		user.Credits = defaultCredits
 		s.repo.AddUser(user)
 
 		s.formatter.JSON(w, http.StatusOK, map[string]string{"token": user.Name})
+	}
+}
+
+func (s *UserService) HandleUserInfo() http.HandlerFunc {
+	return func(w http.ResponseWriter, req *http.Request) {
+		user := req.Context().Value("user").(User)
+
+		s.formatter.JSON(w, http.StatusOK, user)
 	}
 }
 
