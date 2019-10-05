@@ -87,12 +87,15 @@ func main() {
 			}
 		}
 	}()
-	eventService := events.NewInMemoryService(formatter, dispatcherChan)
 	userRepo := users.NewInMemoryUserRepo()
+	eventService := events.NewInMemoryService(formatter, dispatcherChan, userRepo)
 	userService := users.NewUserService(userRepo, formatter)
 
 	// events
 	mx.HandleFunc("/events", eventService.EventsHandleGet()).Methods("GET")
+	mx.HandleFunc("/events/{id}/start", eventService.EventsHandleStart()).Methods("POST")
+	mx.HandleFunc("/events/{id}/finish", eventService.EventsHandleStop()).Methods("POST")
+	mx.HandleFunc("/events/{id}/cancel", eventService.EventsHandleCancel()).Methods("POST")
 	mx.HandleFunc("/events",
 		userService.MustLogin(eventService.EventsHandlePost()),
 	).Methods("POST")

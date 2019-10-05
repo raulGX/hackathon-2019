@@ -20,9 +20,12 @@ type Event struct {
 	UsersRegistered []string    `json:"usersRegistered"`
 	Location        interface{} `json:"location"`
 	Date            int64       `json:"date"`
-	RewardCredits   int64       `json:"rewardCredits"`
+	RewardCredits   float64     `json:"rewardCredits"`
 	MinUserLimit    int         `json:"minUserLimit"`
 	MaxUserLimit    int         `json:"maxUserLimit"`
+	HasStarted      bool        `json:"hasStarted"`
+	IsCanceled      bool        `json:"isCanceled"`
+	Finished        bool        `json:"finished"`
 }
 
 func (e Event) IsValid() bool {
@@ -87,7 +90,7 @@ func (r *InMemoryEventsRepo) ModifyEvent(event Event) (Event, error) {
 	for i, e := range r.events {
 		if e.Name == event.Name {
 			r.events[i] = event
-			ev = e
+			ev = event
 			ok = true
 			break
 		}
@@ -146,6 +149,7 @@ type EventsService struct {
 	repo       IEventRepo
 	formatter  *render.Render
 	dispatcher chan<- interface{}
+	userRepo   users.IUserRepo
 }
 
 func (s *EventsService) EventsHandleGet() http.HandlerFunc {
@@ -230,11 +234,109 @@ func (s *EventsService) EventsHandleUnRegister() http.HandlerFunc {
 	}
 }
 
-func NewInMemoryService(formatter *render.Render, dispatcher chan<- interface{}) *EventsService {
+func (s *EventsService) EventsHandleStart() http.HandlerFunc {
+	return func(w http.ResponseWriter, req *http.Request) {
+		vars := mux.Vars(req)
+		id, ok := vars["id"]
+
+		if !ok {
+			s.formatter.JSON(w, http.StatusNotFound, "Failed to get event")
+			return
+		}
+
+		event, err := s.repo.GetEvent(id)
+
+		if err != nil {
+			s.formatter.JSON(w, http.StatusNotFound, "Failed to get event")
+			return
+		}
+
+		event.HasStarted = true
+		event, err = s.repo.ModifyEvent(event)
+		if err != nil {
+			s.formatter.JSON(w, http.StatusNotFound, "Failed to save event")
+			return
+		}
+		s.dispatcher <- socket.Action{Type: "@@backend/EVENT_STATUS_MODIFIED", Payload: event}
+
+		s.formatter.JSON(w, http.StatusOK, event)
+	}
+}
+
+func (s *EventsService) EventsHandleStop() http.HandlerFunc {
+	return func(w http.ResponseWriter, req *http.Request) {
+		vars := mux.Vars(req)
+		id, ok := vars["id"]
+
+		if !ok {
+			s.formatter.JSON(w, http.StatusNotFound, "Failed to get event")
+			return
+		}
+
+		event, err := s.repo.GetEvent(id)
+
+		if err != nil {
+			s.formatter.JSON(w, http.StatusNotFound, "Failed to get event")
+			return
+		}
+		if event.Finished == true {
+			s.formatter.JSON(w, http.StatusBadRequest, "Event finished")
+
+		}
+		event.HasStarted = true
+		event.Finished = true
+		event, err = s.repo.ModifyEvent(event)
+		if err != nil {
+			s.formatter.JSON(w, http.StatusNotFound, "Failed to save event")
+			return
+		}
+		s.dispatcher <- socket.Action{Type: "@@backend/EVENT_STATUS_MODIFIED", Payload: event}
+		if len(event.UsersRegistered) > 0 {
+			priceToPay := event.RewardCredits / float64(len(event.UsersRegistered))
+			for _, usr := range event.UsersRegistered {
+				newUser, _ := s.userRepo.AddCreditsToUser(usr, priceToPay)
+				s.dispatcher <- socket.Action{Type: "@@backend/USER_MODIFIED", Payload: newUser}
+			}
+		}
+		s.formatter.JSON(w, http.StatusOK, event)
+	}
+}
+
+func (s *EventsService) EventsHandleCancel() http.HandlerFunc {
+	return func(w http.ResponseWriter, req *http.Request) {
+		vars := mux.Vars(req)
+		id, ok := vars["id"]
+
+		if !ok {
+			s.formatter.JSON(w, http.StatusNotFound, "Failed to get event")
+			return
+		}
+
+		event, err := s.repo.GetEvent(id)
+
+		if err != nil {
+			s.formatter.JSON(w, http.StatusNotFound, "Failed to get event")
+			return
+		}
+
+		event.IsCanceled = true
+		event, err = s.repo.ModifyEvent(event)
+		if err != nil {
+			s.formatter.JSON(w, http.StatusNotFound, "Failed to save event")
+			return
+		}
+		s.dispatcher <- socket.Action{Type: "@@backend/EVENT_STATUS_MODIFIED", Payload: event}
+
+		s.formatter.JSON(w, http.StatusOK, event)
+	}
+}
+
+func NewInMemoryService(formatter *render.Render, dispatcher chan<- interface{}, userRepo users.IUserRepo) *EventsService {
 	events := []Event{}
 	return &EventsService{
 		formatter:  formatter,
 		repo:       &InMemoryEventsRepo{events: events},
 		dispatcher: dispatcher,
+		userRepo:   userRepo,
 	}
 }
