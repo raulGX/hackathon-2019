@@ -1,35 +1,7 @@
 import createReducer from 'model/store/createReducer';
 
 function FETCH_EVENTS_SUCCESS(nextState, { result }) {
-  nextState.entities =
-    result.length > 0
-      ? result
-      : [
-          {
-            name: 'My 1st event',
-            description:
-              'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s',
-            location: { name: 'Iasi', distance: '6km away' },
-            date: 1570292501219,
-            participantsCount: 2343
-          },
-          {
-            name: 'My 2nd event',
-            description:
-              'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s',
-            location: { name: 'Iasi', distance: '4km away' },
-            date: 1570292501219,
-            participantsCount: 233
-          },
-          {
-            name: 'My 3rd event',
-            description:
-              'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s',
-            location: { name: 'Iasi', distance: '8km away' },
-            date: 1570292501219,
-            participantsCount: 343
-          }
-        ];
+  nextState.entities = result;
   nextState.isLoading = false;
 }
 

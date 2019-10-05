@@ -17,7 +17,7 @@ function MyEvents({ events }) {
   return (
     <>
       {events.map(event => (
-        <Card key={event.name}>
+        <Card key={event.id}>
           <CardContent>
             <Event event={event} showJoinBtn={false} />
           </CardContent>
