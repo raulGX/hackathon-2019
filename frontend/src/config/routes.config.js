@@ -4,6 +4,7 @@ import AccessAlarmIcon from '@material-ui/icons/AccessAlarm';
 
 const Index = lazy(() => import(/* webpackChunkName: "Index" */ 'pages/Index'));
 const Dashboard = lazy(() => import(/* webpackChunkName: "Dashboard" */ 'pages/Dashboard'));
+const Events = lazy(() => import(/* webpackChunkName: "Events" */ 'pages/Events'));
 
 const routes = [
   {
@@ -27,7 +28,7 @@ const routes = [
         parent: '/',
         name: 'Events',
         path: '/events',
-        component: Dashboard,
+        component: Events,
         icon: AccessAlarmIcon
       }
     ]
