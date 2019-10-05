@@ -1,21 +1,31 @@
-package server
+package main
 
 import (
+	"os"
+
+	"github.com/codegangsta/negroni"
+
 	"github.com/bytexro/hackaton2019-wubbadubdub/backend/events"
 	"github.com/gorilla/mux"
 	"github.com/unrolled/render"
 )
 
-// AddRoutes adds routes to existing router mx.
-func AddRoutes(mx *mux.Router) {
+func main() {
+	port := os.Getenv("PORT")
+	if len(port) == 0 {
+		port = "3000"
+	}
+	n := negroni.Classic()
+	mx := mux.NewRouter()
 	formatter := render.New(render.Options{
 		IndentJSON: true,
 	})
-	//create session here
 
-	initRoutes(mx, formatter)
-}
+	eventService := events.NewInMemoryService(formatter)
 
-func initRoutes(mx *mux.Router, formatter *render.Render) {
-	mx.HandleFunc("/products", events.ListEventsHandler(formatter)).Methods("GET")
+	mx.HandleFunc("/events", eventService.EventsHandleGet()).Methods("GET")
+	mx.HandleFunc("/events", eventService.EventsHandlePost()).Methods("POST")
+
+	n.UseHandler(mx)
+	n.Run(":" + port)
 }
