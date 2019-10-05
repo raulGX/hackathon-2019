@@ -2,13 +2,11 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useSnackbar } from 'notistack';
-import { useTranslation } from 'react-i18next';
 import { Button, Typography } from '@material-ui/core';
 
 import { removeSnackbar } from 'model/actions/notifications';
 
 function Notifier({ notifications, dispatch }) {
-  const { t } = useTranslation();
   const [renderedNotifications, setRenderedNotifications] = useState([]);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
@@ -37,7 +35,7 @@ function Notifier({ notifications, dispatch }) {
     });
   }, [dispatch, notifications]);
 
-  const renderSnackbar = message => <Typography variant="caption">{t(message)}</Typography>;
+  const renderSnackbar = message => <Typography variant="caption">{message}</Typography>;
 
   return null;
 }

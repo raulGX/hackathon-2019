@@ -62,6 +62,7 @@
     "no-trailing-spaces": "warn",
     "no-debugger": "warn",
     "arrow-body-style": "warn",
-    "max-len": "off"
+    "max-len": "off",
+    "react/jsx-props-no-spreading": "off"
   }
 }

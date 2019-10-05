@@ -84,8 +84,7 @@ const options = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',
-      filename: './index.html',
-      favicon: './src/assets/icons/favicon.ico'
+      filename: './index.html'
     }),
     new Dotenv({
       systemvars: true

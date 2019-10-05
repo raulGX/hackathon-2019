@@ -4,11 +4,10 @@ import PropTypes from 'prop-types';
 import RenderOnError from './RenderOnError';
 
 class ErrorBoundary extends Component {
-  state = { error: null, errorInfo: null };
-
-  reset = () => {
-    this.setState({ error: null, errorInfo: null });
-  };
+  constructor(args) {
+    super(args);
+    this.state = { error: null, errorInfo: null };
+  }
 
   componentDidCatch(error, errorInfo) {
     const { onError } = this.props;
@@ -16,6 +15,10 @@ class ErrorBoundary extends Component {
 
     this.setState({ error, errorInfo });
   }
+
+  reset = () => {
+    this.setState({ error: null, errorInfo: null });
+  };
 
   render() {
     const { error, errorInfo } = this.state;
