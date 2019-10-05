@@ -1,8 +1,18 @@
 import React from 'react';
-import { Typography } from '@material-ui/core';
+
+import { CardsContainer, StyledWidget } from './styled';
 
 function Dashboard() {
-  return <Typography>dsdas</Typography>;
+  return (
+    <CardsContainer>
+      <StyledWidget title="Mobility" />
+      <StyledWidget title="Environment" />
+      <StyledWidget title="Pollution" />
+      <StyledWidget title="Municipality" />
+      <StyledWidget title="Security & Emergencies" />
+      <StyledWidget title="Entertainment" />
+    </CardsContainer>
+  );
 }
 
 Dashboard.propTypes = {};
