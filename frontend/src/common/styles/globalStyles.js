@@ -11,6 +11,8 @@ const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    background-color: ${({ theme }) => theme.palette.background.default};
+
   }
 
   #root {
