@@ -7,6 +7,7 @@ import (
 	"github.com/codegangsta/negroni"
 
 	"github.com/bytexro/hackaton2019-wubbadubdub/backend/events"
+	"github.com/bytexro/hackaton2019-wubbadubdub/backend/marketplace"
 	"github.com/bytexro/hackaton2019-wubbadubdub/backend/users"
 	"github.com/gorilla/mux"
 	"github.com/unrolled/render"
@@ -70,6 +71,11 @@ func main() {
 	mx.HandleFunc("/register", userService.HandleUserRegister()).Methods("POST")
 	mx.HandleFunc("/login", userService.HandleUserLogin()).Methods("POST")
 	mx.HandleFunc("/userInfo", userService.MustLogin(userService.HandleUserInfo())).Methods("GET")
+
+	// products
+	productService := marketplace.NewProductService(marketplace.NewInMemoryProductRepo(), formatter)
+	mx.HandleFunc("/marketplace", productService.ProductsHandleGet()).Methods("GET")
+	mx.HandleFunc("/marketplace", userService.MustLogin(productService.ProductsHandlePost())).Methods("POST")
 
 	n.UseHandler(mx)
 	n.Run(":" + port)
