@@ -3,7 +3,7 @@ import { API_URL } from 'config/api.config';
 
 export function fetchMarketItems() {
   return dispatch => {
-    const promise = api.get(`${API_URL}/events`);
+    const promise = api.get(`${API_URL}/marketplace`);
 
     dispatch({
       type: 'FETCH_MARKET_ITEMS',
