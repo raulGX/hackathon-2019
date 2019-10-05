@@ -58,6 +58,12 @@ func main() {
 	mx.HandleFunc("/events",
 		userService.MustLogin(eventService.EventsHandlePost()),
 	).Methods("POST")
+	mx.HandleFunc("/events/{id}/register",
+		userService.MustLogin(eventService.EventsHandleRegister()),
+	).Methods("POST")
+	mx.HandleFunc("/events/{id}/unregister",
+		userService.MustLogin(eventService.EventsHandleUnRegister()),
+	).Methods("POST")
 	mx.HandleFunc("/register", userService.HandleUserRegister()).Methods("POST")
 	mx.HandleFunc("/login", userService.HandleUserLogin()).Methods("POST")
 
