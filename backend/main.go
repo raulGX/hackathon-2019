@@ -1,6 +1,7 @@
 package main
 
 import (
+	"net/http"
 	"os"
 
 	"github.com/codegangsta/negroni"
@@ -16,6 +17,12 @@ func main() {
 		port = "3000"
 	}
 	n := negroni.Classic()
+
+	n.UseFunc(func(w http.ResponseWriter, req *http.Request, next http.HandlerFunc) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		next(w, req)
+	})
+
 	mx := mux.NewRouter()
 	formatter := render.New(render.Options{
 		IndentJSON: true,
