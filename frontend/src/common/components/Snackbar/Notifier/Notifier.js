@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { useSnackbar } from 'notistack';
 import { API_URL } from 'config/api.config';
 
 function Notifier({ dispatch }) {
@@ -11,17 +10,16 @@ function Notifier({ dispatch }) {
       const user = 'bytex'; // get the correct user here
       conn = new WebSocket(`ws://${API_URL.split('http://')[1]}/ws?user=${user}`);
       conn.onmessage = evt => {
-        const data = evt.data;
+        const { data } = evt;
         try {
           const action = JSON.parse(data);
-          console.log(action);
           dispatch(action);
         } catch (error) {
-          console.log(error);
+          console.error(error);
         }
       };
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
 
     return () => {
@@ -35,9 +33,7 @@ function Notifier({ dispatch }) {
 }
 
 Notifier.propTypes = {
-  notifications: PropTypes.array
+  dispatch: PropTypes.func
 };
 
-export default connect(state => ({
-  notifications: state.notifications.list
-}))(Notifier);
+export default connect()(Notifier);
