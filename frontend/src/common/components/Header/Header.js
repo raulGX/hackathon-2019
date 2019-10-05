@@ -1,17 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Typography } from '@material-ui/core';
+import ProfileIcon from 'assets/icons/profile.svg';
+import NotificationsIcon from 'assets/icons/notifications.svg';
 
-import { StyledHeader } from './styled';
+import { StyledHeader, PageTitle, Icons } from './styled';
 
 function Header({ pageName }) {
   return (
     <>
       <StyledHeader>
-        <Typography className="title" variant="h5">
-          {pageName}
-        </Typography>
+        <PageTitle className="title">{pageName}</PageTitle>
+        <Icons>
+          <ProfileIcon />
+          <NotificationsIcon />
+        </Icons>
       </StyledHeader>
     </>
   );

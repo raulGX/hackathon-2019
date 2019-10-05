@@ -4,13 +4,18 @@ import { BottomNavigation } from '@material-ui/core';
 
 export const Navigation = styled(BottomNavigation)`
   position: fixed;
-  bottom: 20px;
-  left: 50%;
-  width: 90%;
-  transform: translateX(-50%);
+  bottom: 0;
+  left: 0;
+  width: 100%;
 
   && .MuiBottomNavigationAction-iconOnly,
   && .Mui-selected {
-    padding-top: 0;
+    padding: 41px 0;
+  }
+
+  .active {
+    path {
+      fill: ${({ theme }) => theme.palette.primary.main};
+    }
   }
 `;

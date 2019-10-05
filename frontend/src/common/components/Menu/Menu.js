@@ -15,6 +15,7 @@ function Menu({ routes, location }) {
     <Navigation value={activeRoute.key}>
       {routes.map(route => (
         <BottomNavigationAction
+          className={activeRoute.key === route.key ? 'active' : ''}
           key={route.key}
           component={NavLink}
           to={route.path}

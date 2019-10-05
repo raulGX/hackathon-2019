@@ -12,7 +12,7 @@ const GlobalStyle = createGlobalStyle`
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     background-color: ${({ theme }) => theme.palette.background.default};
-
+    color: ${({ theme }) => theme.palette.text.main}
   }
 
   #root {

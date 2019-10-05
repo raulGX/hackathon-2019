@@ -1,9 +1,9 @@
 import { lazy } from 'react';
 
-import AccessAlarmIcon from '@material-ui/icons/AccessAlarm';
-import SearchIcon from '@material-ui/icons/Search';
-import HomeIcon from '@material-ui/icons/Home';
-import StoreIcon from '@material-ui/icons/Store';
+import HomeIcon from 'assets/icons/home.svg';
+import MyEventsIcon from 'assets/icons/my-events.svg';
+import AllEventsIcon from 'assets/icons/all-events.svg';
+import MarketplaceIcon from 'assets/icons/marketplace.svg';
 
 const Index = lazy(() => import(/* webpackChunkName: "Index" */ 'pages/Index'));
 const Dashboard = lazy(() => import(/* webpackChunkName: "Dashboard" */ 'pages/Dashboard'));
@@ -33,7 +33,7 @@ const routes = [
         name: 'Events',
         path: '/my-events',
         component: Events,
-        icon: AccessAlarmIcon
+        icon: MyEventsIcon
       },
       {
         key: 'events',
@@ -42,7 +42,7 @@ const routes = [
         name: 'All Events',
         path: '/events',
         component: Events,
-        icon: SearchIcon
+        icon: AllEventsIcon
       },
       {
         key: 'marketplace',
@@ -51,7 +51,7 @@ const routes = [
         name: 'Marketplace',
         path: '/marketplace',
         component: Marketplace,
-        icon: StoreIcon
+        icon: MarketplaceIcon
       }
     ]
   }
