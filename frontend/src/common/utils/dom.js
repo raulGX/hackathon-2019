@@ -4,7 +4,7 @@
  * @returns    {String} Value of a form element
  */
 
-const parseNativeEventValue = ev => {
+export const parseNativeEventValue = ev => {
   if (!ev || !ev.target) {
     return ev;
   }
@@ -25,8 +25,4 @@ const parseNativeEventValue = ev => {
   }
 
   return value;
-};
-
-export default {
-  parseNativeEventValue
 };

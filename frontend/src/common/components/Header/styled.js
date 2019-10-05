@@ -7,6 +7,8 @@ export const StyledHeader = styled.div`
   align-items: center;
   justify-content: flex-end;
   padding: 4.8rem 2.4rem 4rem 2.4rem;
+  position: relative;
+  z-index: 4;
 
   & > .title {
     flex: 1;
