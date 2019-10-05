@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"sync"
 
+	"github.com/bytexro/hackaton2019-wubbadubdub/backend/socket"
 	"github.com/bytexro/hackaton2019-wubbadubdub/backend/users"
 	"github.com/gorilla/mux"
 	"github.com/unrolled/render"
@@ -142,8 +143,9 @@ func (r *InMemoryEventsRepo) UnRegisterUser(user, event string) (Event, error) {
 }
 
 type EventsService struct {
-	repo      IEventRepo
-	formatter *render.Render
+	repo       IEventRepo
+	formatter  *render.Render
+	dispatcher chan<- interface{}
 }
 
 func (s *EventsService) EventsHandleGet() http.HandlerFunc {
@@ -177,6 +179,7 @@ func (s *EventsService) EventsHandlePost() http.HandlerFunc {
 			s.formatter.JSON(w, http.StatusInternalServerError, "Failed to save event")
 			return
 		}
+		s.dispatcher <- socket.Action{Type: "@@backend/ADD_EVENT", Payload: ev}
 		s.formatter.JSON(w, http.StatusOK, ev)
 	}
 }
@@ -198,7 +201,7 @@ func (s *EventsService) EventsHandleRegister() http.HandlerFunc {
 			s.formatter.JSON(w, http.StatusBadRequest, err)
 			return
 		}
-
+		s.dispatcher <- socket.Action{Type: "@@backend/USER_REGISTERED_TO_EVENT", Payload: event}
 		s.formatter.JSON(w, http.StatusOK, event)
 	}
 }
@@ -221,14 +224,17 @@ func (s *EventsService) EventsHandleUnRegister() http.HandlerFunc {
 			return
 		}
 
+		s.dispatcher <- socket.Action{Type: "@@backend/USER_UNREGISTERED_TO_EVENT", Payload: event}
+
 		s.formatter.JSON(w, http.StatusOK, event)
 	}
 }
 
-func NewInMemoryService(formatter *render.Render) *EventsService {
+func NewInMemoryService(formatter *render.Render, dispatcher chan<- interface{}) *EventsService {
 	events := []Event{}
 	return &EventsService{
-		formatter: formatter,
-		repo:      &InMemoryEventsRepo{events: events},
+		formatter:  formatter,
+		repo:       &InMemoryEventsRepo{events: events},
+		dispatcher: dispatcher,
 	}
 }

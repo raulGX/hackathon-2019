@@ -139,6 +139,9 @@ func (s *UserService) HandleUserInfo() http.HandlerFunc {
 func (s *UserService) MustLogin(f http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
 		token := req.Header.Get("X-TOKEN")
+		if token == "" {
+			token = req.Header.Get("Sec-WebSocket-Protocol")
+		}
 		user, err := s.repo.GetUser(token)
 		if err != nil {
 			s.formatter.JSON(w, http.StatusForbidden, "Bad credentials")
