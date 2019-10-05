@@ -2,20 +2,23 @@ import createReducer from 'model/store/createReducer';
 
 function FETCH_MARKET_ITEMS_SUCCESS(nextState, { result }) {
   nextState.entities =
-    result.length > 0
+    result.length > 1
       ? result
       : [
           {
+            id: 1,
             name: 'My 1st item',
             description:
               'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s'
           },
           {
+            id: 2,
             name: 'My 2nd item',
             description:
               'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s'
           },
           {
+            id: 3,
             name: 'My 3rd item',
             description:
               'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s'
