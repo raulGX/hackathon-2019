@@ -1,14 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { joinEvent } from 'model/actions/events';
 
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { Column } from 'common/styles/shared';
-
+import { useDispatch } from 'react-redux';
 import { StyledEvent } from './styled';
 
 function Event({ event, showJoinBtn, ...props }) {
+  const dispatch = useDispatch();
   return (
     <StyledEvent {...props}>
       <Column>
@@ -24,7 +26,12 @@ function Event({ event, showJoinBtn, ...props }) {
       </Column>
       <Column>
         {showJoinBtn ? (
-          <Button variant="outlined" color="primary" size="small">
+          <Button
+            onClick={() => dispatch(joinEvent(event.id))}
+            variant="outlined"
+            color="primary"
+            size="small"
+          >
             JOIN
           </Button>
         ) : null}

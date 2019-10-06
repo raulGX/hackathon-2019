@@ -7,13 +7,13 @@ import CardContent from '@material-ui/core/CardContent';
 import Event from 'components/Event';
 import { fetchEvents } from 'model/actions/events';
 
-function MyEvents({ events }) {
+function MyEvents({ events, username }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchEvents());
   }, [dispatch]);
-
+  events = events.filter(e => e.usersRegistered.includes(username));
   return (
     <>
       {events.map(event => (
@@ -31,4 +31,6 @@ MyEvents.propTypes = {
   events: PropTypes.array
 };
 
-export default connect(state => ({ events: state.events.entities }))(MyEvents);
+export default connect(state => ({ events: state.events.entities, username: state.user.name }))(
+  MyEvents
+);
