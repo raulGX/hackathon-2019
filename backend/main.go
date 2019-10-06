@@ -42,10 +42,10 @@ func main() {
 		next(w, req)
 	})
 
-	n.UseFunc(func(w http.ResponseWriter, req *http.Request, next http.HandlerFunc) {
-		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-		next(w, req)
-	})
+	// n.UseFunc(func(w http.ResponseWriter, req *http.Request, next http.HandlerFunc) {
+	// 	// w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	// 	next(w, req)
+	// })
 
 	n.UseFunc(func(w http.ResponseWriter, req *http.Request, next http.HandlerFunc) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -150,7 +150,14 @@ func main() {
 			}
 		}
 	})
-
+	mx.NotFoundHandler = http.HandlerFunc(NotFoundHandler)
 	n.UseHandler(mx)
 	n.Run(":" + port)
+}
+
+func NotFoundHandler(w http.ResponseWriter, r *http.Request) {
+	// You can use the serve file helper to respond to 404 with
+	// your request file.
+
+	http.ServeFile(w, r, "public/index.html")
 }
