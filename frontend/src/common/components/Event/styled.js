@@ -14,6 +14,7 @@ export const StyledEvent = styled.div`
   .name {
     font-size: 18px;
     font-weight: bold;
+    color: #353b54;
   }
 
   .place {

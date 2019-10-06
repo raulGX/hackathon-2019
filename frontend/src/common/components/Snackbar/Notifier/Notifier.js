@@ -1,47 +1,49 @@
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { API_URL, USERNAME } from 'config/api.config';
-import api from 'model/api';
+import { useSnackbar } from 'notistack';
+import { Button, Typography } from '@material-ui/core';
 
-function Notifier({ dispatch, username }) {
+import { removeSnackbar } from 'model/actions/notifications';
+
+function Notifier({ notifications, dispatch }) {
+  const [renderedNotifications, setRenderedNotifications] = useState([]);
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
+  const DEFAULT_OPTIONS = {
+    onClose: closeSnackbar,
+    anchorOrigin: {
+      vertical: 'bottom',
+      horizontal: 'right'
+    },
+    action: key => <Button onClick={() => closeSnackbar(key)}>Close</Button>
+  };
+
   useEffect(() => {
-    let conn;
+    notifications.forEach(notification => {
+      // Do nothing if snackbar is already displayed
+      if (renderedNotifications.includes(notification.key)) return;
+      // Display snackbar using notistack
+      enqueueSnackbar(renderSnackbar(notification.message), {
+        ...DEFAULT_OPTIONS,
+        ...notification.options
+      });
+      // Keep track of snackbars that we've displayed
+      setRenderedNotifications([...renderedNotifications, notification.key]);
+      // Dispatch action to remove snackbar from redux store
+      dispatch(removeSnackbar(notification.key));
+    });
+  }, [dispatch, notifications]);
 
-    if (username) {
-      api
-        .get(`${API_URL}/userInfo`, { user: username })
-        .then(userInfo => dispatch({ type: '@@backend/USER_MODIFIED', payload: userInfo }));
-    }
-
-    try {
-      const user = USERNAME;
-      conn = new WebSocket(`ws://${API_URL.split('http://')[1]}/ws?user=${user}`);
-      conn.onmessage = evt => {
-        const { data } = evt;
-        try {
-          const action = JSON.parse(data);
-          dispatch(action);
-        } catch (error) {
-          console.error(error);
-        }
-      };
-    } catch (error) {
-      console.error(error);
-    }
-
-    return () => {
-      if (conn !== undefined) {
-        conn.close();
-      }
-    };
-  }, []);
+  const renderSnackbar = message => <Typography variant="caption">{message}</Typography>;
 
   return null;
 }
 
 Notifier.propTypes = {
-  dispatch: PropTypes.func
+  notifications: PropTypes.array
 };
 
-export default connect(state => ({ username: state.user.name }))(Notifier);
+export default connect(state => ({
+  notifications: state.notifications.list
+}))(Notifier);
