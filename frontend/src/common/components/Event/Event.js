@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
+
 import { joinEvent } from 'model/actions/events';
 
 import Typography from '@material-ui/core/Typography';
@@ -13,31 +15,36 @@ function Event({ event, showJoinBtn, joined, ...props }) {
   const dispatch = useDispatch();
   if (!event) return null;
   return (
-    <StyledEvent {...props}>
-      <Column>
-        <Typography variant="caption" color="primary" className="date">
-          {moment(event.date).format('LLLL')}
-        </Typography>
-        <Typography variant="h6" className="name">
-          {event.name}
-        </Typography>
-        <Typography color="textSecondary" className="place">
-          {event.location.name} ∙ {event.location.distance} ∙ {event.usersRegistered.length} going
-        </Typography>
-      </Column>
-      <Column>
-        {showJoinBtn ? (
-          <Button
-            onClick={() => dispatch(joinEvent(event.id))}
-            variant="outlined"
-            color="primary"
-            size="small"
-          >
-            {joined ? 'JOINED' : 'JOIN'}
-          </Button>
-        ) : null}
-      </Column>
-    </StyledEvent>
+    <Link to={`/events/${event.id}`}>
+      <StyledEvent {...props}>
+        <Column>
+          <Typography variant="caption" color="primary" className="date">
+            {moment(event.date).format('LLLL')}
+          </Typography>
+          <Typography variant="h6" className="name">
+            {event.name}
+          </Typography>
+          <Typography color="textSecondary" className="place">
+            {event.location.name} ∙ {event.location.distance} ∙ {event.usersRegistered.length} going
+          </Typography>
+        </Column>
+        <Column>
+          {showJoinBtn ? (
+            <Button
+              onClick={e => {
+                e.preventDefault();
+                dispatch(joinEvent(event.id));
+              }}
+              variant="outlined"
+              color="primary"
+              size="small"
+            >
+              {joined ? 'JOINED' : 'JOIN'}
+            </Button>
+          ) : null}
+        </Column>
+      </StyledEvent>
+    </Link>
   );
 }
 
