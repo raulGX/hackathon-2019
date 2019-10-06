@@ -12,6 +12,7 @@ import store from 'model/store';
 import themeConfig from 'config/theme.config';
 import WithTheme from 'containers/WithTheme';
 import ErrorBoundary from 'components/ErrorBoundary';
+import SocketNotifier from 'components/SocketNotifier';
 import Snackbar from 'components/Snackbar';
 import Notifier from 'components/Snackbar/Notifier';
 
@@ -24,6 +25,7 @@ function App() {
       <WithTheme theme={theme}>
         <ErrorBoundary>
           <Router>
+            <SocketNotifier />
             <Snackbar>
               <Notifier />
               <AuthWrapper>
