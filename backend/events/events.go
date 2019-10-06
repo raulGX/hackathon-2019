@@ -88,7 +88,7 @@ func (r *InMemoryEventsRepo) ModifyEvent(event Event) (Event, error) {
 	ev, ok := Event{}, false
 
 	for i, e := range r.events {
-		if e.Name == event.Name {
+		if e.ID == event.ID {
 			r.events[i] = event
 			ev = event
 			ok = true
@@ -115,7 +115,10 @@ func (r *InMemoryEventsRepo) AddEvent(e Event) (Event, error) {
 }
 
 func (r *InMemoryEventsRepo) RegisterUser(user, event string) (Event, error) {
+
 	eventObj, err := r.GetEvent(event)
+	r.Lock()
+	defer r.Unlock()
 	if err != nil {
 		return eventObj, EventNotFound
 	}
@@ -126,7 +129,12 @@ func (r *InMemoryEventsRepo) RegisterUser(user, event string) (Event, error) {
 	}
 
 	eventObj.UsersRegistered = append(eventObj.UsersRegistered, user)
-	r.ModifyEvent(eventObj)
+	for i, e := range r.events {
+		if e.ID == eventObj.ID {
+			r.events[i] = eventObj
+			break
+		}
+	}
 	return eventObj, nil
 }
 func (r *InMemoryEventsRepo) UnRegisterUser(user, event string) (Event, error) {
@@ -141,7 +149,12 @@ func (r *InMemoryEventsRepo) UnRegisterUser(user, event string) (Event, error) {
 		}
 	}
 	eventObj.UsersRegistered = newUsers
-	r.ModifyEvent(eventObj)
+	for i, e := range r.events {
+		if e.Name == eventObj.Name {
+			r.events[i] = eventObj
+			break
+		}
+	}
 	return eventObj, nil
 }
 
