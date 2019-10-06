@@ -79,7 +79,13 @@ function EventDetails({ events, match }) {
         </EventContent>
         <Sticky>
           <Button className={joined ? 'joined' : ''} onClick={() => dispatch(joinEvent(event.id))}>
-            {event.hasStarted ? 'IN PROGRESS' : joined ? 'JOINED' : 'JOIN'}
+            {event.finished
+              ? 'FINISHED'
+              : event.hasStarted
+              ? 'IN PROGRESS'
+              : joined
+              ? 'JOINED'
+              : 'JOIN'}
           </Button>
         </Sticky>
       </EventWrapper>
