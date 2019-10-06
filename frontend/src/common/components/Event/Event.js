@@ -9,7 +9,7 @@ import { Column } from 'common/styles/shared';
 import { useDispatch } from 'react-redux';
 import { StyledEvent } from './styled';
 
-function Event({ event, showJoinBtn, ...props }) {
+function Event({ event, showJoinBtn, joined, ...props }) {
   const dispatch = useDispatch();
   return (
     <StyledEvent {...props}>
@@ -32,7 +32,7 @@ function Event({ event, showJoinBtn, ...props }) {
             color="primary"
             size="small"
           >
-            JOIN
+            {joined ? 'JOINED' : 'JOIN'}
           </Button>
         ) : null}
       </Column>
@@ -42,7 +42,8 @@ function Event({ event, showJoinBtn, ...props }) {
 
 Event.propTypes = {
   event: PropTypes.object,
-  showJoinBtn: PropTypes.bool
+  showJoinBtn: PropTypes.bool,
+  joined: PropTypes.bool
 };
 
 export default Event;

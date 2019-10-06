@@ -4,6 +4,7 @@ import { connect, useDispatch } from 'react-redux';
 import { Swipeable } from 'react-swipeable';
 
 import { fetchEvents } from 'model/actions/events';
+import { USERNAME } from 'config/api.config';
 import Event from 'components/Event';
 import Map from './Map';
 import Search from './Search';
@@ -65,6 +66,11 @@ function Events({ events }) {
     setStartingPoint(BOTTOM_POINT);
   };
 
+  const onSwipeHandlerClick = () => {
+    if (startingPoint === BOTTOM_POINT) onSwipeUp();
+    else onSwipeDown();
+  };
+
   return (
     <>
       <Search placeholder="Search..." searchTerm={searchTerm} onInputChange={setSearchTerm} />
@@ -72,13 +78,19 @@ function Events({ events }) {
 
       <EventsWrapper style={style} className={classes}>
         <Swipeable onSwiping={onSwiping} onSwipedUp={onSwipeUp} onSwipedDown={onSwipeDown}>
-          <SwipeHandler>
+          <SwipeHandler onClick={onSwipeHandlerClick}>
             <Indicator />
           </SwipeHandler>
         </Swipeable>
         <EventsList>
           {events.map(event => (
-            <Event key={event.id} event={event} className="event" showJoinBtn />
+            <Event
+              key={event.id}
+              event={event}
+              className={`event ${event.usersRegistered.includes(USERNAME) ? 'joined' : ''}`}
+              showJoinBtn
+              joined={event.usersRegistered.includes(USERNAME)}
+            />
           ))}
         </EventsList>
       </EventsWrapper>
