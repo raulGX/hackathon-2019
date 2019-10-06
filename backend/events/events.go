@@ -115,6 +115,8 @@ func (r *InMemoryEventsRepo) AddEvent(e Event) (Event, error) {
 }
 
 func (r *InMemoryEventsRepo) RegisterUser(user, event string) (Event, error) {
+	r.Lock()
+	defer r.Unlock()
 	eventObj, err := r.GetEvent(event)
 	if err != nil {
 		return eventObj, EventNotFound
@@ -130,6 +132,8 @@ func (r *InMemoryEventsRepo) RegisterUser(user, event string) (Event, error) {
 	return eventObj, nil
 }
 func (r *InMemoryEventsRepo) UnRegisterUser(user, event string) (Event, error) {
+	r.Lock()
+	defer r.Unlock()
 	eventObj, err := r.GetEvent(event)
 	if err != nil {
 		return eventObj, EventNotFound
