@@ -78,7 +78,7 @@ function EventDetails({ events, match }) {
           <Description>{event.description}</Description>
         </EventContent>
         <Sticky>
-          <Button className={joined ? 'joined' : ''} onClick={dispatch(joinEvent(event.id))}>
+          <Button className={joined ? 'joined' : ''} onClick={() => dispatch(joinEvent(event.id))}>
             {event.hasStarted ? 'IN PROGRESS' : joined ? 'JOINED' : 'JOIN'}
           </Button>
         </Sticky>
