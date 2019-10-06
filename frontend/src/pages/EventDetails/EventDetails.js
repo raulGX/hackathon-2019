@@ -14,8 +14,7 @@ function EventDetails({ events, match }) {
     dispatch(fetchEvents());
   }, [dispatch]);
 
-  const event = events.find(({ id }) => id === currentEventId) || {};
-  console.log('event', event);
+  const event = events.find(({ id }) => id === currentEventId);
 
   return (
     <>

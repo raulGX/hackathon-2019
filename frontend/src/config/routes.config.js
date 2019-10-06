@@ -50,6 +50,7 @@ const routes = [
       },
       {
         key: 'event-details',
+        exact: true,
         parent: '/',
         name: 'Event details',
         path: '/events/:id',

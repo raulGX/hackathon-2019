@@ -11,6 +11,7 @@ import { StyledEvent } from './styled';
 
 function Event({ event, showJoinBtn, joined, ...props }) {
   const dispatch = useDispatch();
+  if (!event) return null;
   return (
     <StyledEvent {...props}>
       <Column>
