@@ -174,8 +174,14 @@ func (s *UserService) HandleUserInfo() http.HandlerFunc {
 func (s *UserService) MustLogin(f http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
 		token := req.Header.Get("X-TOKEN")
-		if token == "" {
+		if token == "" || token == "undefined" {
 			token = req.Header.Get("Sec-WebSocket-Protocol")
+		}
+		if token == "" || token == "undefined" {
+			q := req.URL.Query()["user"]
+			if len(q) > 0 {
+				token = q[0]
+			}
 		}
 		user, err := s.repo.GetUser(token)
 		if err != nil {

@@ -10,11 +10,14 @@ import (
 	"github.com/unrolled/render"
 )
 
+var ProductNotFoundErr = fmt.Errorf("Product not found error")
+
 type Product struct {
-	ID          string      `json:"id"`
-	Name        string      `json:"name"`
-	Description interface{} `json:"description"`
-	Image       string      `json:"image"`
+	ID          string  `json:"id"`
+	Name        string  `json:"name"`
+	Description string  `json:"description"`
+	Image       string  `json:"image"`
+	Credits     float64 `json:"coins"`
 }
 
 type IProductRepo interface {
@@ -31,7 +34,10 @@ func NewInMemoryProductRepo() *InMemoryProductRepo {
 	return &InMemoryProductRepo{
 		products: []Product{
 			{
-				"1", "Toy", map[string]string{"anything can go": "here"}, "urltoimg",
+				"1", "Parking spot", "location palas", "", 500,
+			},
+			{
+				"2", "Coffee for 1 month", "Free coffee", "", 50,
 			},
 		},
 	}

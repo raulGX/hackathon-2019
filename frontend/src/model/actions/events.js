@@ -22,3 +22,27 @@ export function postEvent(event) {
     });
   };
 }
+
+export function joinEvent(event) {
+  return (dispatch, getState) => {
+    const state = getState();
+    const promise = api.post(`${API_URL}/events/${event}/register?user=${state.user.name}`);
+
+    dispatch({
+      type: 'JOIN_EVENT',
+      promise
+    });
+  };
+}
+
+export function leaveEvent(event) {
+  return (dispatch, getState) => {
+    const state = getState();
+    const promise = api.post(`${API_URL}/events/${event}/unregister?user=${state.user.name}`);
+
+    dispatch({
+      type: 'LEAVE_EVENT',
+      promise
+    });
+  };
+}
