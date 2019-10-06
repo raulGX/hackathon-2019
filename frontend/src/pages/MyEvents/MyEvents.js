@@ -28,7 +28,8 @@ function MyEvents({ events, username }) {
 }
 
 MyEvents.propTypes = {
-  events: PropTypes.array
+  events: PropTypes.array,
+  username: PropTypes.string
 };
 
 export default connect(state => ({ events: state.events.entities, username: state.user.name }))(
