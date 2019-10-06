@@ -18,7 +18,7 @@ function Marketplace({ coins, marketItems }) {
 
   return (
     <>
-      <Typography>{coins}</Typography>
+      <Typography>Credits: {coins}</Typography>
       {marketItems.map(item => (
         <Card key={item.id}>
           <CardContent>
