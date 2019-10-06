@@ -7,6 +7,9 @@ import events from './mocks';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 
+/* eslint-disable prefer-destructuring */
+const MAPBOX_KEY = process.env.MAPBOX_KEY;
+
 export default function Map() {
   const [viewport, setViewport] = useState({
     width: '100%',
@@ -17,11 +20,7 @@ export default function Map() {
   });
   return (
     <StyledMap>
-      <ReactMapGL
-        {...viewport}
-        onViewportChange={setViewport}
-        mapboxApiAccessToken="pk.eyJ1IjoiY2NyaXN0aWMiLCJhIjoiY2o3Ymo2bzliMGxqcjMzbnpzYnExZHV0NSJ9.d74jQikV14_RKfHUFMGv1g"
-      >
+      <ReactMapGL {...viewport} onViewportChange={setViewport} mapboxApiAccessToken={MAPBOX_KEY}>
         {events.map(event => (
           <Marker
             key={event.id}

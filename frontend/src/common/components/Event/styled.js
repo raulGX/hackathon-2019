@@ -19,4 +19,9 @@ export const StyledEvent = styled.div`
   .place {
     font-size: 14px;
   }
+
+  &.joined button {
+    background-color: ${({ theme }) => theme.palette.primary.main};
+    color: #fff;
+  }
 `;
