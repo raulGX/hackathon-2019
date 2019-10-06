@@ -1,4 +1,5 @@
 import createReducer from 'model/store/createReducer';
+import { USERNAME } from 'config/api.config';
 
 function FETCH_USER_SUCCESS(nextState, { result }) {
   nextState.profile = result.data;
@@ -25,7 +26,7 @@ function USER_MODIFIED(nextState, { payload }) {
 
 const reducer = createReducer(
   {
-    name: 'bytex', // should come from login screen also pass this to websocket
+    name: USERNAME, // should come from login screen also pass this to websocket
     profile: {},
     coins: 0,
     loggedIn: false,
