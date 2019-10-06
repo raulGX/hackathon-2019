@@ -9,6 +9,9 @@ const Index = lazy(() => import(/* webpackChunkName: "Index" */ 'pages/Index'));
 const Dashboard = lazy(() => import(/* webpackChunkName: "Dashboard" */ 'pages/Dashboard'));
 const Events = lazy(() => import(/* webpackChunkName: "Events" */ 'pages/Events'));
 const MyEvents = lazy(() => import(/* webpackChunkName: "MyEvents" */ 'pages/MyEvents'));
+const EventDetails = lazy(() =>
+  import(/* webpackChunkName: "EventDetails" */ 'pages/EventDetails')
+);
 const Marketplace = lazy(() => import(/* webpackChunkName: "Marketplace" */ 'pages/Marketplace'));
 
 const routes = [
@@ -44,6 +47,14 @@ const routes = [
         path: '/events',
         component: Events,
         icon: AllEventsIcon
+      },
+      {
+        key: 'event-details',
+        parent: '/',
+        name: 'Event details',
+        path: '/events/:id',
+        component: EventDetails,
+        hideFromMenu: true
       },
       {
         key: 'marketplace',
