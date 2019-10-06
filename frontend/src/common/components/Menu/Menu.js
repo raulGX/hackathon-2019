@@ -13,17 +13,20 @@ function Menu({ routes, location }) {
 
   return (
     <Navigation value={activeRoute.key}>
-      {routes.map(route => (
-        <BottomNavigationAction
-          className={activeRoute.key === route.key ? 'active' : ''}
-          key={route.key}
-          component={NavLink}
-          to={route.path}
-          value={route.key}
-          icon={<route.icon />}
-          showLabel={false}
-        />
-      ))}
+      {routes.map(
+        route =>
+          !route.hideFromMenu && (
+            <BottomNavigationAction
+              className={activeRoute.key === route.key ? 'active' : ''}
+              key={route.key}
+              component={NavLink}
+              to={route.path}
+              value={route.key}
+              icon={<route.icon />}
+              showLabel={false}
+            />
+          )
+      )}
     </Navigation>
   );
 }
